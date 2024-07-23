@@ -36,7 +36,7 @@ This project involves creating a system to generate random coordinates for drive
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/SadovnikI/driver_geo_test_case.git
-   cd driver-geo-service
+   cd driver_geo_test_case
    ```
 
 2. **Build and Run with Docker Compose**:
