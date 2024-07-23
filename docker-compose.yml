@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: "postgres_db"
+    image: "postgres:15-alpine"
+    restart: on-failure
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/create_test_db.sh:/docker-entrypoint-initdb.d/create_test_db.sh
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test_database
+    ports:
+      - 5432:5432
+
+  web:
+    container_name: "driver_geo_web"
+    command: bash -c "alembic upgrade head && uvicorn api.app:app --host 0.0.0.0 --port 8000 --reload"
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+
+  script:
+    container_name: "driver_script"
+    build:
+      context: .
+      dockerfile: Dockerfile.driver_script
+    depends_on:
+      - web
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data: {}

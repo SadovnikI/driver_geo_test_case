@@ -1,0 +1,30 @@
+{
+    "driver_service": {
+        "endpoint_url": "http://driver_geo_web:8000/api/v1/driver-geo/",
+        "send_interval_seconds": 10
+    },
+    "drivers": {
+        "number_of_drivers": 5
+    },
+    "location": {
+        "city": "Lviv, Ukraine",
+        "latitude_range": [49.795, 49.905],
+        "longitude_range": [23.903, 24.043]
+    },
+    "data_limits": {
+        "max_speed_kmh": 13,
+        "min_altitude_m": 0,
+        "max_altitude_m": 400
+    },
+    "database": {
+        "host": "localhost",
+        "port": 5432,
+        "username": "root",
+        "password": "root",
+        "database_name": "test_database",
+        "url": "postgresql+asyncpg://postgres:postgres@postgres_db:5432/test_database"
+    },
+    "elevation": {
+        "lookup_url": "https://api.open-elevation.com/api/v1/lookup?locations={},{}"
+    }
+}
